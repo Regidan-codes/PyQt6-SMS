@@ -1,3 +1,5 @@
+from idlelib.help_about import AboutDialog
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, \
     QLineEdit, QPushButton, QMainWindow, QTableWidget, QTableWidgetItem, QDialog, \
@@ -25,7 +27,7 @@ class MainWindow(QMainWindow):
 
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
-        about_action.setMenuRole(QAction.MenuRole.NoRole)
+        about_action.triggered.connect(self.about)
 
         search_action = QAction(QIcon("Icons/search.png"), "Search", self)
         edit_menu_item.addAction(search_action)
@@ -96,6 +98,21 @@ class MainWindow(QMainWindow):
     def delete(self):
         dialog = DeleteDialog()
         dialog.exec()
+
+    def about(self):
+        dialog = AboutDialog()
+        dialog.exec()
+
+
+class AboutDialog(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About")
+        content = """
+        App was created to practise PyQt6 GUI development.
+        Feel free to use and modify this project
+        """
+        self.setText(content)
 
 
 class InsertDialog(QDialog):
